@@ -79,7 +79,7 @@ jobs:
           echo ${{ env.WORKFLOW_NAME }}
           echo ${{ secrets.TEST_NAME }}
   report:
-    need: [test,deploy]
+    needs: [test,deploy]
     if: failure()
     runs-on: ubuntu-latest
     steps:
