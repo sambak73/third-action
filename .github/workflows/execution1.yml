@@ -78,3 +78,9 @@ jobs:
           echo ${{ env.JOB_NAME }}
           echo ${{ env.WORKFLOW_NAME }}
           echo ${{ secrets.TEST_NAME }}
+  report:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: final report
+        run: echo "Thank You"
