@@ -1,0 +1,87 @@
+name: continue on error
+on:
+  push:
+    branches:
+      - master
+env:
+  WORKFLOW_NAME: 'build data'      
+jobs:
+  test:
+    environment: test
+    env:
+      JOB_NAME: test
+    runs-on: ubuntu-latest
+    steps:
+      - name:  get code
+        uses: actions/checkout@v3
+      - name: cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: '~/.npm'
+          key: ${{ runner.os}}-${{ hashFiles('package-lock.json')}}  
+      - name: install dependencies
+        run: npm ci
+      - name: test code
+        continue-on-error: true
+        id: run-tests
+        run: npm run test
+      - name: upload test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: test.json  
+      - name: Before build
+        run: |
+          echo ${{ env.JOB_NAME }}
+          echo ${{ secrets.ENV_NAME }}
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      filename: ${{ steps.filename.outputs.filename }}
+    steps:
+      - name: get code
+        uses: actions/checkout@v3
+      - name: cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os}}-${{ hashFiles('package-lock.json')}}  
+      - name: install dependencies
+        run: npm ci
+      - name: build code
+        run: npm run build
+      - name: get filename
+        id: filename
+        run: find dist/assets/*.js -execdir echo 'filename={}' >> $GITHUB_OUTPUT ';'  
+      - name: upload artifacts
+        uses: actions/upload-artifact@v3  
+        with:
+          name: dist-files
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist-files
+          path: dist
+      - name: display filename
+        run: echo ${{ needs.build.outputs.filename }}    
+      - name: display contents of artifact
+        run: ls dist/
+      - name: final step
+        run: |
+          echo "Artifacts are ready"      
+          echo ${{ env.JOB_NAME }}
+          echo ${{ env.WORKFLOW_NAME }}
+          echo ${{ secrets.TEST_NAME }}
+  report:
+    needs: [test,deploy]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: final report
+        run: echo "Thank You"
