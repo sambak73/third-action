@@ -7,8 +7,15 @@ on:
         type: string
         required: false
         default: dist-files
+    outputs:
+      final-result:
+        description: "name of the js file in artifact"
+        value: ${{ jobs.deploy.outputs.deploy-result }}
+
 jobs:
   deploy:
+    outputs:
+      deploy-result: ${{ steps.deploy.outputs.result }}
     runs-on: ubuntu-latest
     steps:
       - name: deploy artifact
@@ -16,3 +23,6 @@ jobs:
         with:
           name: ${{ inputs.artifact-name }}
           path: dist-deploy
+      - name: final step
+        id: deploy
+        run: find dist-deploy/assets/*.js -type f -execdir echo 'result={}' >> $GITHUB-OUTPUT ';'   
