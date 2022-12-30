@@ -22,7 +22,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.artifact-name }}
-          path: dist
       - name: list artifacts
         run: ls    
       - name: final step
