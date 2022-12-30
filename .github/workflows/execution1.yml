@@ -1,8 +1,5 @@
 name: conditional flow of action
-on:
-  push:
-    branches:
-      - master
+on: workflow_dispatch:
 env:
   WORKFLOW_NAME: 'build data'      
 jobs:
