@@ -6,11 +6,13 @@ on:
         description: "name of the artifact for deployment"
         type: string
         required: false
+        default: dist-files
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: deploy artifact
-        run:  |
-          echo "Im called from other workflow"
-          echo ${{ inputs.artifact-name }}
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: dist
