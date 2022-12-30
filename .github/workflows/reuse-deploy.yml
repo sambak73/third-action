@@ -8,7 +8,7 @@ on:
         required: false
         default: dist-files
     outputs:
-      final-result:
+      result:
         description: "name of the js file in artifact"
         value: ${{ jobs.deploy.outputs.deploy-result }}
 

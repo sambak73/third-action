@@ -70,4 +70,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: final report
-        run: echo ${{ needs.deploy.outputs.final-result }}
+        run: echo ${{ needs.deploy.outputs.result }}
