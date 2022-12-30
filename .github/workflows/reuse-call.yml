@@ -65,7 +65,7 @@ jobs:
     with:
       artifact-name: dist-files
   report:
-  #  needs: deploy
+    needs: deploy
   #  if: failure()
     runs-on: ubuntu-latest
     steps:
