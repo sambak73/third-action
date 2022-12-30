@@ -28,4 +28,4 @@ jobs:
         id: deploy
         run: |
           find assets/*.js -type f -execdir echo 'result={}' >> $GITHUB-OUTPUT ';'   
-          echo find assets/*.js -type f -execdir echo 'result={}' ';'
+          find assets/*.js -type f -execdir echo 'result={}' ';'
