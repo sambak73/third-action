@@ -27,5 +27,4 @@ jobs:
       - name: final step
         id: deploy
         run: |
-          find assets/*.js -type f -execdir echo 'result={}' >> $GITHUB-OUTPUT ';'   
-          find assets/*.js -type f -execdir echo 'result={}' ';'
+          find assets/*.js -type f -execdir echo 'result={}' >> $GITHUB_OUTPUT ';'   
