@@ -23,6 +23,8 @@ jobs:
         with:
           name: ${{ inputs.artifact-name }}
           path: dist
+      - name: list artifacts
+        run: ls    
       - name: final step
         id: deploy
         run: find dist/assets/*.js -type f -execdir echo 'result={}' >> $GITHUB-OUTPUT ';'   
