@@ -65,9 +65,9 @@ jobs:
     with:
       artifact-name: dist-files
   report:
-    needs: [test,deploy]
-    if: failure()
+    needs: deploy
+  #  if: failure()
     runs-on: ubuntu-latest
     steps:
       - name: final report
-        run: echo "Thank You"
+        run: echo ${{ needs.deploy.outputs.final-result }}
