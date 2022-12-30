@@ -26,4 +26,4 @@ jobs:
         run: ls    
       - name: final step
         id: deploy
-        run: find dist/assets/*.js -type f -execdir echo 'result={}' >> $GITHUB-OUTPUT ';'   
+        run: find assets/*.js -type f -execdir echo 'result={}' >> $GITHUB-OUTPUT ';'   
