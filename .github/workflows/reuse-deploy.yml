@@ -1,0 +1,16 @@
+name: deploy artifacts
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: "name of the artifact for deployment"
+        type: string
+        required: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy artifact
+        run:  |
+          echo "Im called from other workflow"
+          echo ${{ inputs.artifact-name }}
